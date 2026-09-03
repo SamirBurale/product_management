@@ -206,44 +206,41 @@ class GlobalExceptionHandlerTest {
         assertNotNull(response.getBody().getTimestamp());
     }
 
-    // =========================================================
-    // GENERAL EXCEPTION
-    // =========================================================
+ // =========================================================
+ // GENERAL EXCEPTION
+ // =========================================================
 
-    @Test
-    void handleGeneralException_shouldReturn500() {
+ @Test
+ void handleGeneralException_shouldReturn500() {
 
-        Exception exception =
-                new RuntimeException("Database error");
+     Exception exception =
+             new RuntimeException("Database error");
 
-        ResponseEntity<ErrorResponse> response =
-                exceptionHandler.handleValidationException(
-                        exception,
-                        null
-                );
+     ResponseEntity<ErrorResponse> response =
+             exceptionHandler.handleException(exception);
 
-        assertEquals(
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                response.getStatusCode()
-        );
+     assertEquals(
+             HttpStatus.INTERNAL_SERVER_ERROR,
+             response.getStatusCode()
+     );
 
-        assertNotNull(response.getBody());
+     assertNotNull(response.getBody());
 
-        assertEquals(
-                "INTERNAL_SERVER_ERROR",
-                response.getBody().getError()
-        );
+     assertEquals(
+             "INTERNAL_SERVER_ERROR",
+             response.getBody().getError()
+     );
 
-        assertEquals(
-                "An unexpected error occurred",
-                response.getBody().getMessage()
-        );
+     assertEquals(
+             "An unexpected error occurred",
+             response.getBody().getMessage()
+     );
 
-        assertEquals(
-                500,
-                response.getBody().getStatus()
-        );
+     assertEquals(
+             500,
+             response.getBody().getStatus()
+     );
 
-        assertNotNull(response.getBody().getTimestamp());
-    }
+     assertNotNull(response.getBody().getTimestamp());
+ }
 }

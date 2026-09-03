@@ -47,7 +47,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 username = jwtService.extractUsername(jwt);
             } catch (Exception exception) {
                 // Invalid JWT
-                // Continue filter chain
             }
         }
 
@@ -76,6 +75,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder
                         .getContext()
                         .setAuthentication(authentication);
+
+                // TEMPORARY DEBUG
+                System.out.println(
+                        "Authenticated user: "
+                                + userDetails.getUsername()
+                );
+
+                System.out.println(
+                        "Authorities: "
+                                + userDetails.getAuthorities()
+                );
             }
         }
 
