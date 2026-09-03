@@ -217,7 +217,7 @@ class GlobalExceptionHandlerTest {
                 new RuntimeException("Database error");
 
         ResponseEntity<ErrorResponse> response =
-                exceptionHandler.handleGeneralException(
+                exceptionHandler.handleValidationException(
                         exception,
                         null
                 );

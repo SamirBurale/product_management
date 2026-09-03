@@ -9,6 +9,9 @@ import com.zest.product.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -57,13 +60,13 @@ public class ProductServiceImpl implements ProductService {
 
     // =========================================================
     // GET PRODUCT BY ID
-    // Redis temporarily bypassed
+    // Redis Caching
     // =========================================================
 
     @Override
+    @Cacheable(value = "products", key = "#p0")
     public ProductResponse getProductById(Long id) {
 
-        System.out.println("Fetching product from DATABASE: " + id);
 
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
@@ -73,10 +76,11 @@ public class ProductServiceImpl implements ProductService {
 
     // =========================================================
     // UPDATE PRODUCT
-    // Redis temporarily bypassed
+    // Updates Redis cache
     // =========================================================
 
     @Override
+    @CachePut(value = "products", key = "#p0")
     public ProductResponse updateProduct(
             Long id,
             ProductRequest request) {
@@ -99,10 +103,11 @@ public class ProductServiceImpl implements ProductService {
 
     // =========================================================
     // DELETE PRODUCT
-    // Redis temporarily bypassed
+    // Removes product from Redis cache
     // =========================================================
 
     @Override
+    @CacheEvict(value = "products", key = "#p0")
     public void deleteProduct(Long id) {
 
         Product product = productRepository.findById(id)

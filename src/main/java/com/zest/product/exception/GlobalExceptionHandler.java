@@ -13,7 +13,10 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    // =========================================================
     // PRODUCT NOT FOUND
+    // =========================================================
+
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleProductNotFound(
             ProductNotFoundException exception,
@@ -31,7 +34,10 @@ public class GlobalExceptionHandler {
                 .body(response);
     }
 
+    // =========================================================
     // VALIDATION ERROR
+    // =========================================================
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationException(
             MethodArgumentNotValidException exception,
@@ -56,7 +62,11 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(response);
     }
-    
+
+    // =========================================================
+    // ITEM NOT FOUND
+    // =========================================================
+
     @ExceptionHandler(ItemNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleItemNotFound(
             ItemNotFoundException exception) {
@@ -72,7 +82,11 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(response);
     }
-    
+
+    // =========================================================
+    // ITEM PRODUCT MISMATCH
+    // =========================================================
+
     @ExceptionHandler(ItemProductMismatchException.class)
     public ResponseEntity<ErrorResponse> handleItemProductMismatch(
             ItemProductMismatchException exception) {
@@ -89,11 +103,12 @@ public class GlobalExceptionHandler {
                 .body(response);
     }
 
+    // =========================================================
     // GENERAL EXCEPTION
+    // =========================================================
+
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGeneralException(
-            Exception exception,
-            HttpServletRequest request) {
+    public ResponseEntity<ErrorResponse> handleException(Exception exception) {
 
         ErrorResponse response = ErrorResponse.builder()
                 .timestamp(LocalDateTime.now())
